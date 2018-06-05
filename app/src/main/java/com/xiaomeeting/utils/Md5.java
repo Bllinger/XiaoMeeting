@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class Md5 {
+
     public static String md5(String string, String slat) {
         if (TextUtils.isEmpty(string)) {
             return null;
@@ -26,6 +27,8 @@ public class Md5 {
                 }
                 result += temp;
             }
+
+            LogUtil.d("MD5___result", result);
             return result;
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();

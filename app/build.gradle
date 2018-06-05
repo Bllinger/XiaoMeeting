@@ -10,6 +10,9 @@ MobSDK {
 }
 android {
     compileSdkVersion 27
+    lintOptions {
+        abortOnError false
+    }
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
@@ -22,12 +25,25 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        debug {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            versionNameSuffix "-debug"
             minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.debug
+        }
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -39,6 +55,8 @@ dependencies {
 
 
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
@@ -46,8 +64,24 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
 
     compile 'com.google.code.gson:gson:2.8.2'
-    compile 'com.squareup.okhttp3:okhttp:3.10.0'
 
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    compile 'org.litepal.android:core:1.6.1'
+    //底部导航
+    compile 'com.github.chaychan:BottomBarLayout:1.1.2'
+    //圆形image
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    //process bar
+    implementation 'com.victor:lib:1.0.4'
+
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    //图片处理
+    implementation 'com.github.crazycodeboy:TakePhoto:v4.1.0'
+    //七牛云
+    compile 'com.qiniu:qiniu-android-sdk:7.3.12'
+    compile 'com.squareup.okio:okio:1.14.0'
+    //网络图片加载
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

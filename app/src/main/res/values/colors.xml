@@ -4,4 +4,17 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#fffefe</color>
+    <color name="colorXiaoMeetingBlue">#1087ED</color>
+    <color name="colorXiaomeetingGray">#bfbfbf</color>
+    <color name="Gray">#e7e7e7</color>
+    <color name="colorGray">#f6f6f8</color>
+    <color name="backgrandGray">#efeff4</color>
+    <color name="colorTextBack">#000000</color>
+    <color name="colorGrayText">#8b8b8b</color>
+    <color name="colorZT">#fafafa</color>
+    <color name="book_loading_background">#ffffff</color>
+    <color name="book_loading_book">#1087ED</color>
+    <color name="book_loading_page">#ffffff</color>
+    <color name="multiple_image_select_primaryDark">#212121</color>
+    <color name="colorRed">#e42626</color>
 </resources>

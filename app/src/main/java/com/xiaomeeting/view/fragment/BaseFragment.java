@@ -1,16 +1,15 @@
 package com.xiaomeeting.view.fragment;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xiaomeeting.app.MyApplication;
 import com.xiaomeeting.presenter.Presenter;
 
 import butterknife.ButterKnife;
@@ -25,7 +24,7 @@ public abstract class BaseFragment extends Fragment{
     protected Presenter presenter;
     private Unbinder butterKnife;
     private Activity activity;
-    protected Context context;
+    //protected Context context;
 
     @Nullable
     @Override
@@ -34,7 +33,7 @@ public abstract class BaseFragment extends Fragment{
         View view = inflater.inflate(getLayoutId(),container,false);
 
         butterKnife = ButterKnife.bind(this,view);
-        this.context = getActivity();
+        //this.context = getActivity();
         initView(inflater,container,savedInstanceState);
 
         return view;
@@ -63,7 +62,7 @@ public abstract class BaseFragment extends Fragment{
         if (presenter != null)
             presenter.destroy();
 
-        activity.finish();
+        //activity.finish();
     }
 
     @Override
@@ -72,13 +71,7 @@ public abstract class BaseFragment extends Fragment{
         activity = getActivity();
     }
 
-    public Context getContext(){
-        if (activity == null){
-            return MyApplication.getInstance();
-        }
 
-        return activity;
-    }
     protected abstract int getLayoutId();
     protected abstract void initView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState);
     protected abstract Presenter getPresenter();

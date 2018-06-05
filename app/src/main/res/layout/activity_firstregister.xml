@@ -2,39 +2,135 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     >
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/second_register_fragment"
         />
+
+
     <LinearLayout
+        android:id="@+id/first_register_line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/first_register_line">
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:id="@+id/edit_sNum"
-            android:singleLine="true"
-            android:inputType="number"
-            android:imeOptions="actionNext"
-            android:hint="请输入你的学号" />
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:id="@+id/edit_sName"
-            android:singleLine="true"
-            android:inputType="text"
-            android:imeOptions="actionDone"
-            android:hint="请输入你的姓名"/>
+        android:background="@color/backgrandGray">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/title"
+            android:layout_gravity="center"
+            android:layout_marginTop="48dp" />
+
+
+        <RelativeLayout
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="102dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/Gray" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/Gray" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@color/Gray" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/Gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.xiaomeeting.view.MyView.ImgEditText
+                    android:id="@+id/sNameIet_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@null"
+                    android:layout_marginLeft="15dp"
+                    android:drawableLeft="@drawable/userlogin"
+                    android:drawableRight="@drawable/delete20"
+                    android:drawablePadding="15dp"
+                    android:layout_marginRight="10dp"
+                    android:hint="姓名"
+                    android:maxLength="10"
+                    android:inputType="text" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/Gray" />
+
+                <com.xiaomeeting.view.MyView.ImgEditText
+                    android:id="@+id/sNumIet_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/student24"
+                    android:drawableRight="@drawable/delete20"
+                    android:drawablePadding="15dp"
+                    android:hint="学号"
+                    android:maxLength="10"
+                    android:inputType="number" />
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/next_button"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:id="@+id/register_next_button"
+            android:background="@color/colorXiaoMeetingBlue"
+            android:textColor="@color/white"
             android:text="下一步"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/white"
+        android:id="@+id/bookloading_line"
+        android:orientation="vertical">
+
+        <com.victor.loading.book.BookLoading
+            android:id="@+id/bookloading"
+            android:layout_width="110dp"
+            android:layout_height="85dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="加载中..."
+            android:layout_gravity="center" />
     </LinearLayout>
 
 

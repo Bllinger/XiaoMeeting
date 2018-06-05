@@ -1,11 +1,13 @@
 package com.xiaomeeting.view.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
+import com.xiaomeeting.app.MyApplication;
 import com.xiaomeeting.presenter.Presenter;
+import com.xiaomeeting.utils.QiNiu.StatusBarUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -14,7 +16,7 @@ import butterknife.Unbinder;
  * Created by Blinger on 2018/5/6.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends Activity {
     protected Context context;
     protected Presenter presenter;
     protected Unbinder unbind;
@@ -23,7 +25,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(getLayoutId());
-        context = this;
+        StatusBarUtil.setTransparent(BaseActivity.this);
+        context = MyApplication.getContext();
 
         unbind = ButterKnife.bind(this);
 

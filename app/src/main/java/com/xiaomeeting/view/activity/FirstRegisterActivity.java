@@ -4,20 +4,22 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.victor.loading.book.BookLoading;
 import com.xiaomeeting.IView.IFirstRegisterView;
 import com.xiaomeeting.R;
-import com.xiaomeeting.presenter.FirstRegisterPresenter;
+import com.xiaomeeting.app.MyApplication;
 import com.xiaomeeting.presenter.Presenter;
+import com.xiaomeeting.presenter.User.FirstRegisterPresenter;
 import com.xiaomeeting.utils.ToastUtil;
-import com.xiaomeeting.view.fragment.SecondFragment;
+import com.xiaomeeting.view.MyView.ImgEditText;
+import com.xiaomeeting.view.fragment.SecondRegisterFragment;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -26,31 +28,50 @@ import butterknife.OnClick;
 
 public class FirstRegisterActivity extends BaseActivity implements IFirstRegisterView {
 
-    @BindView(R.id.edit_sNum)
-    EditText editSNum;
-    @BindView(R.id.edit_sName)
-    EditText editSName;
-    @BindView(R.id.next_button)
-    Button nextButton;
 
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
-    private SecondFragment secondFragment;
+    @BindView(R.id.register_next_button)
+    Button registerNextButton;
+    @BindView(R.id.bookloading)
+    BookLoading bookloading;
+    private SecondRegisterFragment secondRegisterFragment;
     private FirstRegisterPresenter firstRegisterPresenter;
     private int status;
     private String info;
+    private LinearLayout linearLayoutFrame;
     private LinearLayout linearLayout;
+    private ImgEditText sNumEdit;
+    private ImgEditText sNameEdit;
+
     @Override
-    public void onFirstRegisterSuccess(String msg,int status) {
-        ToastUtil.showToast(getApplicationContext(),msg);
-        this.status = status;
-        //
+    public void onFirstRegisterSuccess(String msg, int status) {
+        if (bookloading.isStart()) {
+            bookloading.setVisibility(View.GONE);
+            bookloading.stop();
+        }
+
+        ToastUtil.getInstance().showSuccess(getApplicationContext(), msg);
+
+        ViewGroup.LayoutParams layoutParams = linearLayoutFrame.getLayoutParams();
+        layoutParams.width = 0;
+        layoutParams.height = 0;
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.second_register_fragment, secondRegisterFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
-    public void onFirstRegisterFailure(String msg,int status) {
-        ToastUtil.showToast(getApplicationContext(),msg);
-        this.status = status;
+    public void onFirstRegisterFailure(String msg, int status) {
+        if (bookloading.isStart()) {
+            linearLayout.setVisibility(View.GONE);
+            bookloading.stop();
+        }
+
+        ToastUtil.getInstance().showFailue(MyApplication.getContext(), msg);
+
+        //this.status = status;
+
     }
 
     @Override
@@ -66,43 +87,50 @@ public class FirstRegisterActivity extends BaseActivity implements IFirstRegiste
     @Override
     protected void init(@Nullable Bundle savedInstanceState) {
 
-        linearLayout = (LinearLayout)findViewById(R.id.first_register_line);
-        firstRegisterPresenter = new FirstRegisterPresenter(this,this);
+        sNameEdit = (ImgEditText) this.findViewById(R.id.sNameIet_register);
+        sNumEdit = (ImgEditText) this.findViewById(R.id.sNumIet_register);
+        linearLayoutFrame = (LinearLayout) this.findViewById(R.id.first_register_line);
+        linearLayout = (LinearLayout) this.findViewById(R.id.bookloading_line);
+        linearLayout.setVisibility(View.GONE);
+        //bookloading.start();
+        firstRegisterPresenter = new FirstRegisterPresenter(this, this);
+        secondRegisterFragment = new SecondRegisterFragment();
 
-        secondFragment = new SecondFragment();
+        sNameEdit.setDrawableClick(new ImgEditText.IMyRightDrawableClick() {
+            @Override
+            public void rightDrawableClick() {
+                sNameEdit.setText(null);
+            }
+        });
+        sNumEdit.setDrawableClick(new ImgEditText.IMyRightDrawableClick() {
+            @Override
+            public void rightDrawableClick() {
+                sNumEdit.setText(null);
+            }
+        });
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
-    @OnClick(R.id.next_button)
+    @OnClick(R.id.register_next_button)
     public void onViewClicked() {
-        String sNum = editSNum.getText().toString();
-        String sName = editSName.getText().toString();
-
-        firstRegisterPresenter.FirstRegister(sNum,sName);
-        //status = 1;
-        switch (status){
-            case 1:
-                ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
-                layoutParams.width=0;
-                layoutParams.height=0;
-
-                fragmentManager = getFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.second_register_fragment,secondFragment);
-                fragmentTransaction.commit();
-                break;
-            default:
-                ToastUtil.showToast(getApplicationContext(),info);
-
+        if (!bookloading.isStart()) {
+            linearLayout.setVisibility(View.VISIBLE);
+            bookloading.start();
         }
+        linearLayout.setVisibility(View.GONE);
+        String sNum = sNumEdit.getText().toString();
+        String sName = sNameEdit.getText().toString();
 
+        firstRegisterPresenter.FirstRegister(sNum, sName);
+        /*ViewGroup.LayoutParams layoutParams = linearLayoutFrame.getLayoutParams();
+        layoutParams.width = 0;
+        layoutParams.height = 0;
 
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.second_register_fragment, secondRegisterFragment);
+        fragmentTransaction.commit();*/
     }
+
 }
